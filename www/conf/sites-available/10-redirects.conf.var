@@ -1,0 +1,43 @@
+# Redirect HTTP requests on $BOILERPLATE_DOMAIN to HTTPS
+server {
+	listen 80;
+	listen [::]:80;
+	server_name $BOILERPLATE_DOMAIN;
+	
+	include global.conf;
+	
+	location / {
+		return 301 https://$host$request_uri;
+	}
+}
+
+# Redirect HTTP requests on www.$BOILERPLATE_DOMAIN to HTTPS
+server {
+	listen 80;
+	listen [::]:80;
+	server_name www.$BOILERPLATE_DOMAIN;
+
+	include global.conf;
+
+	location / {
+		return 301 https://$BOILERPLATE_DOMAIN$request_uri;
+	}
+}
+
+# Strip www. from HTTPS requests on www.$BOILERPLATE_DOMAIN
+server {
+	listen 443;
+	listen [::]:443;
+	server_name www.$BOILERPLATE_DOMAIN;
+	
+	ssl on;
+	ssl_certificate /etc/ssl/private/www.cer;
+	ssl_certificate_key /etc/ssl/private/www.key;
+	
+	include global.conf;
+	
+	location / {
+		add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+		return 301 https://$BOILERPLATE_DOMAIN$request_uri;
+	}
+}

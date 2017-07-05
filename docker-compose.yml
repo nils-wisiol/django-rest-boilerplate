@@ -1,0 +1,118 @@
+version: '2.1'
+
+services:
+  www:
+    build: www
+    image: boilerplate/www:latest
+    ports:
+    - "80:80"
+    - "443:443"
+    volumes:
+    - ${BOILERPLATE_WWW_CERTS}:/etc/ssl/private:ro
+    - ./www/html:/usr/share/nginx/html:ro
+    environment:
+    - BOILERPLATE_DOMAIN
+    depends_on:
+    - api
+    - static
+    mac_address: 06:42:ac:10:00:80
+    networks:
+      front:
+        ipv4_address: ${BOILERPLATE_IPV4_16PREFIX}.0.128
+        ipv6_address: ${BOILERPLATE_IPV6_ADDRESS}
+      rear_www_api:
+      rear_www_static:
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/www"
+    restart: unless-stopped
+
+  db:
+    build: db
+    image: boilerplate/db:latest
+    volumes:
+    - db_mysql:/var/lib/mysql
+    environment:
+    - BOILERPLATE_IPV4_16PREFIX
+    - BOILERPLATE_DB_PASSWORD
+    networks:
+    - rear_api_db
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/db"
+    restart: unless-stopped
+
+  api:
+    build: api
+    image: boilerplate/api:latest
+    depends_on:
+    - db
+    environment:
+    - BOILERPLATE_DOMAIN
+    - BOILERPLATE_API_ADMIN
+    - BOILERPLATE_API_EMAIL_HOST
+    - BOILERPLATE_API_EMAIL_HOST_USER
+    - BOILERPLATE_API_EMAIL_HOST_PASSWORD
+    - BOILERPLATE_API_EMAIL_PORT
+    - BOILERPLATE_API_SECRETKEY
+    - BOILERPLATE_DB_PASSWORD
+    networks:
+    - rear_www_api
+    - rear_api_db
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/api"
+    restart: unless-stopped
+
+  static:
+    build: static
+    image: boilerplate/static:latest
+    networks:
+    - rear_www_static
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/static"
+    restart: unless-stopped
+
+volumes:
+  db_mysql:
+
+networks:
+  # Note that it is required that the front network ranks lower (in lexical order)
+  # than the other networks. See https://github.com/docker/docker/issues/27101
+  front:
+    enable_ipv6: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: ${BOILERPLATE_IPV4_16PREFIX}.0.0/24
+        gateway: ${BOILERPLATE_IPV4_16PREFIX}.0.1
+      - subnet: ${BOILERPLATE_IPV6_SUBNET}
+  # Make sure these come after the front network (lexical order). This is why we
+  # call it rear, not back. See https://github.com/docker/docker/issues/27101
+  rear_www_api:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: ${BOILERPLATE_IPV4_16PREFIX}.1.0/24
+        gateway: ${BOILERPLATE_IPV4_16PREFIX}.1.1
+  rear_www_static:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: ${BOILERPLATE_IPV4_16PREFIX}.2.0/24
+        gateway: ${BOILERPLATE_IPV4_16PREFIX}.2.1
+  rear_api_db:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: ${BOILERPLATE_IPV4_16PREFIX}.3.0/24
+        gateway: ${BOILERPLATE_IPV4_16PREFIX}.3.1
