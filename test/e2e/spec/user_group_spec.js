@@ -17,3 +17,8 @@ frisby.create('GET users')
   .get(URL + '/api/users/')
   .expectStatus(200)
 .toss();
+
+frisby.create('GET groups')
+  .get(URL + '/api/groups/')
+  .expectStatus(200)
+.toss();
