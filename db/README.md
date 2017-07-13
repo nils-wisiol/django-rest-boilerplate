@@ -1,6 +1,6 @@
 # boilerplate MariaDB Server
 
-Any docker image build from this sources will provide a custom configured MariaDB service.
+Any Docker image build from these sources will provide a custom configured MariaDB service.
 
 ## Customization
 
@@ -20,12 +20,12 @@ Upon starting the container for the first time, an empty database `api` will be 
 
 ### Volume
 
-All database values are stored on a docker volume and are hence persistant when replacing the image or container.
+All database values are stored on a Docker volume and are hence persistent when replacing the image or container.
 
 
 ## Building this Image
 
-Database initialization scripts are copied onto the image when building. Note that they will not be executed during build time, as they depend on environment variables that will only be available during run time. Any change to the initialization scripts need a rebuild to become effective.
+Database initialization scripts are copied into the image when building. Note that they will not be executed during build time, as they depend on environment variables that will only be available during run time. Any change to the initialization scripts necessitates a rebuild to become effective.
 
 ## Starting a Container
 
