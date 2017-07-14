@@ -32,7 +32,7 @@ After populating `.env` with all appropriate values, the service can be started 
 
     docker-compose up
     
-and be reached at your chosen domain name (remember to have your domain name point at localhost). At http://example.com/api/admin/ is the generic django administration backend available.
+and be reached at your chosen domain name. Remember to have your domain name point at BOILERPLATE_DOMAIN.0.128 (for the default configuration this is 172.16.0.128). At http://example.com/api/admin/ is the generic django administration backend available.
 
 ### Django Management Console
 
@@ -161,4 +161,4 @@ TODO
 TODO
 
 ## Acknowledgements
-Much of the techniques used in this project is courtesy of the [deSEC project](desec.io).
+Much of the techniques used in this project is courtesy of the [deSEC project](https://desec.io).
