@@ -32,7 +32,7 @@ After populating `.env` with all appropriate values, the service can be started 
 
     docker-compose up
     
-and be reached at your chosen domain name. Remember to have your domain name point at BOILERPLATE_DOMAIN.0.128 (for the default configuration this is 172.16.0.128). At http://example.com/api/admin/ is the generic django administration backend available.
+and be reached at your chosen domain name. Remember to have your domain name point at `$BOILERPLATE_IPV4_16PREFIX`.0.128 (for the default configuration this is 172.16.0.128). At http://example.com/api/admin/ is the generic django administration backend available.
 
 ### Django Management Console
 
@@ -139,7 +139,7 @@ https://update.dedyn.io/update?username=<em>example.dedyn.io</em>&amp;password=<
 
 Then follow [their guide to obtain a Let's Encrypt certificate](https://desec.io/#!/en/docs/certbot). Notice that dedyn.io currently only supports certificate for `example.dedyn.io`, but not for any sub-domains.
 
-After successfully obtaining the LE certificate, it will be placed in PEM format in `/etc/letsencrypt/live/example.dedyn.io/` and needs to be moved to the location specified above in `.env`.
+After successfully obtaining the LE certificate, it will be placed in PEM format in `/etc/letsencrypt/live/example.dedyn.io/` and needs to be moved to the location specified above in `.env`. (Be sure to use `fullchain.pem` as most clients will otherwise not accept the certificate.)
 
 As dedyn.io currently does not support issuance of certificates for subdomains, we recommend using the (then invalid) `MAIN.cer` also for `www.cer`. This will result in a security warning when browsing to www. `BOILERPLATE_DOMAIN`. (However, nginx will not start without a certificate file for www.)
 
