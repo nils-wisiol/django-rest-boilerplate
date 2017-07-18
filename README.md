@@ -121,10 +121,11 @@ As the entire project runs across several Docker containers, usage of any python
 We appreciate all contributions integrating easy usage of JIT debuggers!
 
 
-## TODO
-  - add restframework sample code
-  - add end-to-end tests
-  - travis integration
+## Future Work
+
+There is much to do to improve this project. We can think of:
+
+  - Include travis integration to automatically execute tests on push. (This is currently inhibited by the need for SSL certificates.)
     
 
 
