@@ -1,0 +1,39 @@
+server {
+	listen 443;
+	listen [::]:443;
+	server_name $BOILERPLATE_DOMAIN;
+	
+	access_log /var/log/nginx/access.log main;
+	error_log /var/log/nginx/error.log;
+	
+	ssl on;
+	ssl_certificate /etc/ssl/private/MAIN.cer;
+	ssl_certificate_key /etc/ssl/private/MAIN.key;
+	add_header Strict-Transport-Security "max-age=31536000";
+	
+	include global.conf;
+	
+	######
+	# Pass API requests to an API server
+	######
+	location /api/ {
+		# max .5r/s to the API per IP, but 10 at once is okay. This limit may need to be increased once
+		# client applications become more powerful
+		limit_req zone=perip-api burst=10 nodelay;
+		expires epoch;
+		etag off;
+		add_header Strict-Transport-Security "max-age=31536000";
+		include uwsgi_params;
+		uwsgi_pass api;
+	}
+	
+	######
+	# Pass static content requests
+	######
+	location / {
+		# we limit downloading of static assets with high burst
+		limit_req zone=perip-general burst=1000 nodelay;
+
+		proxy_pass http://static;
+	}
+}

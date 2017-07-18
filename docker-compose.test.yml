@@ -1,0 +1,15 @@
+version: '2.1'
+
+# mostly extending from main .yml
+services:
+  test-e2e:
+    build: test/e2e
+    restart: "no"
+    environment:
+    - BOILERPLATE_DOMAIN
+    #- BOILERPLATE_IPV4_16PREFIX
+    #- BOILERPLATE_IPV6_ADDRESS
+    depends_on:
+    - www
+    networks:
+    - front
