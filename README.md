@@ -154,13 +154,9 @@ security updates until at least April 2020.
 It also relies on [restframework](http://www.django-rest-framework.org/) which does not specify any maintenance cycle,
 but is an active project on [GitHub](https://github.com/encode/django-rest-framework).
 
-## Contribution
-
-TODO
-
 ## License
 
-TODO
+All work in this repository is licensed under the MIT license. For details, see the LICENSE file.
 
 ## Acknowledgements
 Much of the techniques used in this project is courtesy of the [deSEC project](https://desec.io).
