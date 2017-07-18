@@ -80,6 +80,10 @@ The containers are arranged as shown in this diagram. Inter-service communicatio
     It communicates with `www` through an `uwsgi` interface.
   - **The `db` container** provides the MySQL (MariaDB) database used by the `api`. It is the only container in our setup that uses a Docker volume to persistently store data.
 
+There is an additional container for testing:
+
+  - **The `test-e2e` container** mocks an user and executes the defined end-to-end tests. (Cf. test/e2e/spec/*_spec.js.)
+
 The detailed design of the single containers is quite involved. Please refer to their individual READMEs.
 
 ## Deployment
