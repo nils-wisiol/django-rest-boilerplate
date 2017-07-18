@@ -1,6 +1,6 @@
 # boilerplate Django REST API
 
-Any docker image build from this sources will contain a complete Django framework running an uwsgi service.
+Any Docker image built from these sources will contain a complete Django framework running an uwsgi service.
 
 ## Customization
 
@@ -21,8 +21,8 @@ The service obtains a couple of crucial settings from environment variables, suc
 
 ## Building this Image
 
-When build, this image installs some `mysql` dependencies and tools onto the Python 3.6 Docker image, then copies the Django app source code into the image and installs the `pip` requirements. Compatible updates to any `pip` requirements are automatically installed on each build (unless the build is cached).
+At build time, this image installs some `mysql` dependencies and tools onto the Python 3.6 Docker image, then copies the Django app source code into the image and installs the `pip` requirements. Compatible updates to any `pip` requirements are automatically installed on each build (unless the build is cached).
 
 ## Starting a Container
 
-When started, `entrypoint.sh` is executed. It connects to the database and executes Django database migration if necessary. Afterwards, the Django uswgi service is started. Note that this service is not inteded to be exposed to the public, doing so may yield unintended consequences.
+When started, `entrypoint.sh` is executed. It connects to the database and executes Django database migration if necessary. Afterwards, the Django uswgi service is started. Note that this service is not inteded to be exposed to the public, and doing so may yield unintended consequences.

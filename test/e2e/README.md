@@ -1,6 +1,6 @@
 # End to End Tests
 
-These image source provide a docker container that automatically runs all tests against the REST API upon startup.
+These image sources provide a Docker container that automatically runs all tests against the REST API upon startup.
 
 To run the tests, use
 
