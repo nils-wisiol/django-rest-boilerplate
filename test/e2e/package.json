@@ -1,15 +1,17 @@
 {
   "name": "test-e2e",
   "version": "1.0.0",
-  "description": "End-to-end tests for the Django REST Boilerplate application",
+  "description": "End-to-end tests for the eID-based single sign-on service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Nils Wisiol",
+  "author": "Benjamin Keller",
   "license": "MIT",
   "dependencies": {
-    "jasmine-node": "~1.14",
-    "frisby": "~0.8"
+    "jasmine": "~2.7.0",
+    "frisby": "~2.0.2",
+    "jquery": "~3.2.1",
+    "jsdom": "~11.1.0"
   }
 }
