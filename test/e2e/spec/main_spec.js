@@ -1,32 +1,35 @@
-var frisby = require('frisby');
+describe("Ngnix/django", function() {
 
-var URL = 'https://' + process.env.BOILERPLATE_DOMAIN;
+	var frisby = require('frisby');
+	var URL = 'https://' + process.env.BOILERPLATE_DOMAIN;
 
-frisby.globalSetup({ // globalSetup is for ALL requests
-  request: {
-    headers: {
-        'Host': process.env.BOILERPLATE_DOMAIN,
-        'Connection': 'close',
-    }
-  }
+	beforeAll(function() {
+		frisby.globalSetup({ // globalSetup is for ALL requests
+		  request: {
+			headers: {
+				'Host': process.env.BOILERPLATE_DOMAIN,
+				'Connection': 'close',
+			}
+		  }
+		});
+	});
+
+	it("provides an index page", function(done) {
+		frisby.get(URL + '/')
+		  .expect('status', 200)
+		.done(done);
+	});
+
+	it("provides an admin page", function(done) {
+		frisby.get(URL + '/api/admin')
+		  .expect('status', 200)
+		.done(done);
+	});
+
+	it("provides an admin login page", function(done) {
+		frisby.get(URL + '/api/admin/login/')
+		  .expect('status', 200)
+		.done(done);
+	});
 });
 
-frisby.create('GET root')
-  .get(URL + '/')
-  .expectStatus(200)
-.toss();
-
-frisby.create('GET admin login redirect')
-  .get(URL + '/api/admin/', {followRedirect: false})
-  .expectStatus(302)
-.toss();
-
-frisby.create('GET admin login redirect')
-  .get(URL + '/api/admin')
-  .expectStatus(200)
-.toss();
-
-frisby.create('GET admin login')
-  .get(URL + '/api/admin/login/')
-  .expectStatus(200)
-.toss();
