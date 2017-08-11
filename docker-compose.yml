@@ -22,10 +22,6 @@ services:
         ipv6_address: ${BOILERPLATE_IPV6_ADDRESS}
       rear_www_api:
       rear_www_static:
-    logging:
-      driver: "syslog"
-      options:
-        tag: "boilerplate/www"
     restart: unless-stopped
 
   db:
@@ -38,10 +34,6 @@ services:
     - BOILERPLATE_DB_PASSWORD
     networks:
     - rear_api_db
-    logging:
-      driver: "syslog"
-      options:
-        tag: "boilerplate/db"
     restart: unless-stopped
 
   api:
@@ -61,10 +53,6 @@ services:
     networks:
     - rear_www_api
     - rear_api_db
-    logging:
-      driver: "syslog"
-      options:
-        tag: "boilerplate/api"
     restart: unless-stopped
 
   static:
@@ -72,10 +60,6 @@ services:
     image: boilerplate/static:latest
     networks:
     - rear_www_static
-    logging:
-      driver: "syslog"
-      options:
-        tag: "boilerplate/static"
     restart: unless-stopped
 
 volumes:
