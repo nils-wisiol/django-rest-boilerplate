@@ -134,3 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/api/static/'
 STATIC_ROOT = '/usr/src/app/static'
+
+# OIDC Provider
+
+LOGIN_URL = 'accounts/login'
