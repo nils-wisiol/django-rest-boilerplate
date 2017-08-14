@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>OpenID Connect example client (Resource Provider)</title>
+
+</head>
+<body>
+
+    <center>
+        <h1>Example Client</h1>
+    <div id='content-div'>
+        <button id="login-button">Login with eID</button>
+    </div>
+    </center>
+
+    <!-- Use JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <!-- Use JS OpenID library -->
+    <script src="https://rawgit.com/IdentityModel/oidc-client-js/dev/dist/oidc-client.min.js"></script>
+
+    <script type="text/javascript">
+    $(function() {
+        // Specify client using templating engine Jinja2
+        var settings = {
+            authority: '{{ authority_url }}',
+            client_id: '{{ client_id }}',
+            redirect_uri:'{{ redirect_url }}',
+            response_type: 'id_token token',
+            scope: 'openid',
+            filterProtocolClaims: true,
+            loadUserInfo: false
+        };
+
+        var mgr = new Oidc.UserManager(settings);
+
+        // Add listener that adds user infos to html page
+        mgr.events.addUserLoaded(function(user) {
+            $('#login-button').hide()
+
+            var table = "<table><th>Property</th><th>Value</th>"
+                for (var property in user) {
+                        if (user.hasOwnProperty(property)) {
+                        table += "<tr><td>" + property + "</td><td>" + JSON.stringify(user[property]) + "</td></tr>"
+                    }
+                }
+            $('#content-div').append(table);
+        });
+
+        // call back to parent window
+        if (window.opener && window.opener != window)
+        {
+            mgr.signinPopupCallback();
+        }
+
+        // Make an authorization request if the user clicks the login button.
+        $('#login-button').click(function (event) {
+            mgr.signinPopup();
+        });
+    });
+    </script>
+
+</body>
+</html>
