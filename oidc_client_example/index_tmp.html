@@ -33,6 +33,8 @@
         };
 
         var mgr = new Oidc.UserManager(settings);
+
+        // Add listener that adds user infos to html page
         mgr.events.addUserLoaded(function(user) {
             $('#login-button').hide()
 

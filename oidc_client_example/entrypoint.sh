@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/bash -e
 cd /root
-python process_tmpl.py || exit 1
+python process_tmpl.py
 
 mkdir server
 mv index.html server/
