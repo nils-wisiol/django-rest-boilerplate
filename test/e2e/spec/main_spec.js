@@ -31,5 +31,17 @@ describe("Ngnix/django", function() {
 		  .expect('status', 200)
 		.done(done);
 	});
+
+	it("provides an openid page", function(done) {
+		frisby.get(URL + '/api/openid/')
+		  .expect('status', 200)
+		.done(done);
+	});
+
+	it("provides an openid login page", function(done) {
+		frisby.get(URL + '/api/openid/accounts/login/')
+		  .expect('status', 200)
+		.done(done);
+	});
 });
 
