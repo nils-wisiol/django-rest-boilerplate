@@ -1,15 +1,3 @@
-# Redirect HTTP requests on $BOILERPLATE_DOMAIN to HTTPS
-server {
-	listen 80;
-	listen [::]:80;
-	server_name $BOILERPLATE_DOMAIN;
-	
-	include global.conf;
-	
-	location / {
-		return 301 https://$host$request_uri;
-	}
-}
 
 # Redirect HTTP requests on www.$BOILERPLATE_DOMAIN to HTTPS
 server {

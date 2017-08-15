@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'oidc_provider',
+    'boilerplate',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,7 @@ USE_TZ = True
 
 STATIC_URL = '/api/static/'
 STATIC_ROOT = '/usr/src/app/static'
+
+# OIDC Provider
+
+LOGIN_URL = 'accounts/login'

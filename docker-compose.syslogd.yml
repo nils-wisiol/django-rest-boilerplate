@@ -1,0 +1,27 @@
+version: '2.1'
+
+# mostly extending from main .yml
+services:
+  www:
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/www"
+
+  db:
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/db"
+
+  api:
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/api"
+
+  static:
+    logging:
+      driver: "syslog"
+      options:
+        tag: "boilerplate/static"
