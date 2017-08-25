@@ -1,13 +1,6 @@
-FROM debian:jessie
+FROM node:8
 
-RUN apt-get update \
-	&& apt-get install -y curl gnupg \
-	&& curl -sL https://deb.nodesource.com/setup_6.x | bash - \
-	&& apt-get update \
-	&& apt-get install -y --no-install-recommends bzip2 git nodejs ruby-compass \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/*
-
-RUN npm install -g jasmine-node
+RUN npm install -g chakram mocha
 
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
@@ -15,6 +8,7 @@ WORKDIR /usr/src/app
 COPY ./package.json ./
 RUN npm install
 
-COPY ./spec ./
+COPY setup.js ./setup.js
+COPY ./spec ./spec
 
-CMD jasmine-node .
+CMD mocha ./spec

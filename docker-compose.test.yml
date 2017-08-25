@@ -7,8 +7,8 @@ services:
     restart: "no"
     environment:
     - BOILERPLATE_DOMAIN
-    #- BOILERPLATE_IPV4_16PREFIX
-    #- BOILERPLATE_IPV6_ADDRESS
+    - BOILERPLATE_IPV4_16PREFIX
+    - BOILERPLATE_IPV6_ADDRESS
     depends_on:
     - www
     networks:
