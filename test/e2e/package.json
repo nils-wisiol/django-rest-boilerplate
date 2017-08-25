@@ -9,7 +9,8 @@
   "author": "Nils Wisiol",
   "license": "MIT",
   "dependencies": {
-    "jasmine-node": "~1.14",
-    "frisby": "~0.8"
+    "mocha": "~3.5.0",
+    "jquery": "~3.2.1",
+    "jsdom": "~11.1.0"
   }
 }
