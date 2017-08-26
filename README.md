@@ -20,11 +20,12 @@ Runnig django-rest-boilerplate requires a fully configured `.env` file. A templa
  - `BOILERPLATE_IPV4_16PREFIX`: internal network IPv4 address prefix. The default value `172.16` will suit most users.
  - `BOILERPLATE_IPV6_SUBNET`: internal network IPv6 subnet. The default value `bade:affe:dead:beef:b011::/80` will suit most users. 
  - `BOILERPLATE_IPV6_ADDRESS`: internal network IPv6 address. The default value `bade:affe:dead:beef:b011:0642:ac10:0080` will suit most users.
- - `BOILERPLATE_WWW_CERTS`: location of the required SSL certificates in PEM format. This folder needs to contain the following four files:
-    * `MAIN.cer`, `MAIN.key`: certificate and private key for `BOILERPLATE_DOMAIN`.
-    * `www.cer`, `www.key`: certificate and private key for www. `BOILERPLATE_DOMAIN`.
+ - `BOILERPLATE_WWW_CERTS`: location of the required SSL certificates in PEM format. This folder can contain the following four files, named after the domain name they will be used for. For example, if your `BOILERPLATE_DOMAIN` is `boilerplate.local`, then name your certificates files:
+    * `boilerplate.local.cer`, `boilerplate.local.key`: certificate and private key for `BOILERPLATE_DOMAIN`.
+    * `www.boilerplate.local.cer`, `www.boilerplate.local.key`: certificate and private key for www. `BOILERPLATE_DOMAIN`.
     
-    The certificates can be obtained any way (and can also be the same). Please [see below for an convenient way](#dedyn.io-cert) to obtain debug certificates for `BOILERPLATE_DOMAIN` (but lacking a valid certificate for www.`BOILERPLATE_DOMAIN`). Alternatively, you can also [use self-signed certificates](https://github.com/desec-io/easypki).
+    The certificates can be obtained any way (and can also be the same). Please [see below for an convenient way](#dedyn.io-cert) to obtain debug certificates for `BOILERPLATE_DOMAIN` (but lacking a valid certificate for www.`BOILERPLATE_DOMAIN`).
+    If you don't provide certificates, the `www` container will generated short-term self-signed certificates on startup.
  - `BOILERPLATE_API_SECRETKEY`: needs to be set to an instance-specific [random secret value](https://www.random.org/passwords/?num=5&len=24&format=html&rnd=new).
  - `BOILERPLATE_DB_PASSWORD`: the database user password, should also be set to an instance-specific random secret value.
 
@@ -117,6 +118,20 @@ On your production machine, make sure that `.env` and `docker-compose.yml` are a
 For updating the production server, the procedure is the same (with the exception that the registration with Docker Hub does not need to be repeated.)
 Note that environment and database will be different on production and hence can cause complications during database migration upon service restart after the update.
 
+## Tests
+
+Currently, the boilerplate only ships e2e tests. Those are implemented in [chakram](http://dareid.github.io/chakram/). The test spects can be found in `test/e2e/spec`. Please refer to the chakram documentation on how to write specs.
+
+To run the tests, ensure the project is already up and running (especially the database takes some time to boot for the first time) by running
+
+    docker-compose up --build www
+    
+To run the actual tests, use
+
+    docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build test-e2e
+    
+The `.travis.yml` contains instructions for travis on how to bootstrap the entire system from scratch.
+
 
 
 ## Development
@@ -124,13 +139,6 @@ Note that environment and database will be different on production and hence can
 As the entire project runs across several Docker containers, usage of any python just in time (JIT) debugger is quite involved.
 We appreciate all contributions integrating easy usage of JIT debuggers!
 
-
-## Future Work
-
-There is much to do to improve this project. We can think of:
-
-  - Include travis integration to automatically execute tests on push. (This is currently inhibited by the need for SSL certificates.)
-    
 
 
 <a name="dedyn.io-cert"></a>
@@ -148,10 +156,10 @@ Then follow [their guide to obtain a Let's Encrypt certificate](https://desec.io
 
 After successfully obtaining the LE certificate, it will be placed in PEM format in `/etc/letsencrypt/live/example.dedyn.io/` and needs to be moved to the location specified above in `.env`. (Be sure to use `fullchain.pem` as most clients will otherwise not accept the certificate.)
 
-As dedyn.io currently does not support issuance of certificates for subdomains, we recommend using the (then invalid) `MAIN.cer` also for `www.cer`. This will result in a security warning when browsing to www.`BOILERPLATE_DOMAIN`. (However, nginx will not start without a certificate file for www.)
+As dedyn.io currently does not support issuance of certificates for subdomains, we recommend using the (then invalid) main certificate also for the www subdomain. This will result in a security warning when browsing to www.`BOILERPLATE_DOMAIN`. (However, the www container will fall back to self-signed certificates when you do not provide a certificate for every domain.)
 
 ## Getting Help
-Any Django questions are best answered by [their documentation and support channels](https://docs.djangoproject.com/en/1.11/).
+Any Django questions are best answered by [their documentation and support channels](https://docs.djangoproject.com/en/1.11/). If there is anything related directly to this project, please open an issue or pull request on GitHub.
 
 ## Security Updates
 This projects contains Django 1.11 LTS, which will receive mainstream updates until December 2017 and 
@@ -164,4 +172,4 @@ but is an active project on [GitHub](https://github.com/encode/django-rest-frame
 All work in this repository is licensed under the MIT license. For details, see the LICENSE file.
 
 ## Acknowledgements
-Much of the techniques used in this project is courtesy of the [deSEC project](https://desec.io).
+Much of the techniques used in this project is courtesy of the [deSEC project](https://desec.io), some changes were backported after the [eID project of Freie Universität Berlin](https://github.com/swp-fu-eid/eid-fu-swp) used the boilerplate to bootstrap their project.
