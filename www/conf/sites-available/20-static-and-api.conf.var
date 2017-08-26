@@ -7,8 +7,8 @@ server {
 	error_log /var/log/nginx/error.log;
 	
 	ssl on;
-	ssl_certificate /etc/ssl/private/MAIN.cer;
-	ssl_certificate_key /etc/ssl/private/MAIN.key;
+	ssl_certificate ${CERT_PATH}${BOILERPLATE_DOMAIN}.cer;
+	ssl_certificate_key ${CERT_PATH}${BOILERPLATE_DOMAIN}.key;
 	add_header Strict-Transport-Security "max-age=31536000";
 	
 	include global.conf;
