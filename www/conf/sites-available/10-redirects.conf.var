@@ -31,8 +31,8 @@ server {
 	server_name www.$BOILERPLATE_DOMAIN;
 	
 	ssl on;
-	ssl_certificate /etc/ssl/private/www.cer;
-	ssl_certificate_key /etc/ssl/private/www.key;
+	ssl_certificate ${CERT_PATH}www.${BOILERPLATE_DOMAIN}.cer;
+	ssl_certificate_key ${CERT_PATH}www.${BOILERPLATE_DOMAIN}.key;
 	
 	include global.conf;
 	

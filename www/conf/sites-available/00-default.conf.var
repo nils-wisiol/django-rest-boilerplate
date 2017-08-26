@@ -14,8 +14,8 @@ server {
 	server_name _;
 
 	ssl on;
-	ssl_certificate /etc/ssl/private/MAIN.cer;
-	ssl_certificate_key /etc/ssl/private/MAIN.key;
+	ssl_certificate ${CERT_PATH}${BOILERPLATE_DOMAIN}.cer;
+	ssl_certificate_key ${CERT_PATH}${BOILERPLATE_DOMAIN}.key;
 
 	return 444; # see https://httpstatuses.com/444
 }
