@@ -1,6 +1,6 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-var chakram = require('/usr/local/lib/node_modules/chakram/lib/chakram.js');
+var chakram = require('chakram');
 
 chakram.addMethod("body", function (respObj, expected) {
     var body = respObj.body;

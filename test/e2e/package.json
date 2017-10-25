@@ -11,6 +11,7 @@
   "dependencies": {
     "mocha": "~3.5.0",
     "jquery": "~3.2.1",
-    "jsdom": "~11.1.0"
+    "jsdom": "~11.1.0",
+    "chakram": "~1.5.0"
   }
 }
